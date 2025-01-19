@@ -1,0 +1,16 @@
+mutation deleteUser(
+  $email: String!
+) {
+  deleteUser(
+    email: $email
+  ) {
+    ok
+    error
+    user {
+      id
+      email
+      name
+    }
+  }
+}
+

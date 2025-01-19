@@ -1,0 +1,7 @@
+mutation createQueueMessageForRabbitMq($queue: String!, $content: String!) {
+  createQueueMessageForRabbitMq(queue: $queue, content: $content) {
+    ok
+    error
+    message
+  }
+}

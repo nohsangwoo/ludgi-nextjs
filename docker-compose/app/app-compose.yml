@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: ../../    # 프로젝트 루트 디렉토리를 가리키도록 상대 경로 수정
+      dockerfile: docker-compose/app/Dockerfile    # Dockerfile의 새로운 경로 지정
+    container_name: ludgi-app
+    restart: always
+    env_file:
+      # .env.production 파일의 위치를 지정
+      # 이 파일에는 PORT=2000 같은 환경변수들이 들어있음
+      - ../../.env.production    
+    environment:
+      # PORT 환경변수 설정
+      # ${PORT}는 .env.production에서 PORT 값을 가져옴
+      # :-2000은 .env.production에 PORT가 없을 경우 2000을 기본값으로 사용
+      # 예시: .env.production에 PORT=3000이 있으면 3000 사용, 
+      #      없으면 2000 사용
+      - PORT=${PORT:-2000}
+      - WEBSOCKET_PORT=${WEBSOCKET_PORT:-4800}
+    ports:
+      - "${PORT:-2000}:${PORT:-2000}"
+      - "${WEBSOCKET_PORT:-4800}:${WEBSOCKET_PORT:-4800}"
+    networks:
+      - ludgi-network
+  
+
+networks:
+  ludgi-network:
+    name: ludgi-network

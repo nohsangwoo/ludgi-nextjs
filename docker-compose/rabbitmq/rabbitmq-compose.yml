@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rabbitmq_server
+    restart: always
+    networks:
+      - ludgi-network
+    ports:
+      - "5672:5672"    # AMQP 프로토콜 포트
+      - "15672:15672"  # Management UI 포트
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+
+networks:
+  ludgi-network:
+    name: ludgi-network
+    external: true
+
+volumes:
+  rabbitmq_data:
+    name: rabbitmq_data 

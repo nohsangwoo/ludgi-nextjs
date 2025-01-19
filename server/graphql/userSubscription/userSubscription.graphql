@@ -1,0 +1,8 @@
+subscription userSubscription($email: String) {
+  userSubscription(email: $email) {
+    id
+    email
+    name
+    postsCount
+  }
+}

@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// Prisma 스키마 파일
+// 이 파일은 데이터베이스의 구조를 정의하는 핵심 파일입니다.
+// 여기서 모델(테이블), 필드(컬럼), 관계를 정의하고 설정합니다.
+
+// generator: Prisma Client 설정
+// - provider: 어떤 클라이언트를 생성할지 지정
+// - binaryTargets: 실행 환경 지정 (여러 환경에서 실행하기 위해 필요)
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x", "linux-arm64-openssl-1.1.x", "darwin-arm64", "windows", "debian-openssl-3.0.x"]
+}
+
+// datasource: 데이터베이스 연결 설정
+// - provider: 사용할 데이터베이스 종류 (postgresql, mysql, sqlite 등)
+// - url: 데이터베이스 연결 문자열 (환경변수에서 가져옴)
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Post 모델 (게시글 테이블)
+model Post {
+  id        Int      @id @default(autoincrement()) // 게시글 고유 ID (자동 증가)
+  createdAt DateTime @default(now()) // 생성 시간 (기본값: 현재 시간)
+  updatedAt DateTime @updatedAt // 수정 시간 (자동 업데이트)
+  title     String   @db.VarChar(255) // 게시글 제목 (최대 255자)
+  content   String? // 게시글 내용 (선택사항)
+  published Boolean  @default(false) // 게시 여부 (기본값: false)
+  author    User     @relation(fields: [authorId], references: [id]) // 작성자와의 관계 (N:1)
+  authorId  Int // 작성자 ID (외래키)
+}
+
+// Profile 모델 (사용자 프로필 테이블)
+model Profile {
+  id     Int     @id @default(autoincrement()) // 프로필 고유 ID
+  bio    String? // 자기소개 (선택사항)
+  user   User    @relation(fields: [userId], references: [id]) // 사용자와의 관계 (1:1)
+  userId Int     @unique // 사용자 ID (외래키, unique로 1:1 관계 보장)
+}
+
+// User 모델 (사용자 테이블)
+model User {
+  id       Int      @id @default(autoincrement()) // 사용자 고유 ID
+  email    String   @unique // 이메일 (중복 불가)
+  name     String? // 이름 (선택사항)
+  password String // 비밀번호
+  posts    Post[] // 작성한 게시글들 (1:N 관계)
+  profile  Profile? // 프로필 (1:1 관계)
+}
+
+// 관계 설명:
+// 1. User와 Post: 1:N 관계
+//    - 한 사용자(User)는 여러 게시글(Post)을 작성할 수 있음
+//    - 각 게시글은 반드시 한 명의 작성자를 가짐
+
+// 2. User와 Profile: 1:1 관계
+//    - 한 사용자는 하나의 프로필만 가질 수 있음
+//    - 프로필은 반드시 한 명의 사용자에게 속함
+
+// 필드 속성 설명:
+// @id: 기본키(Primary Key) 지정
+// @default: 기본값 설정
+// @unique: 중복 값 불허용
+// @updatedAt: 수정 시간 자동 업데이트
+// @relation: 다른 모델과의 관계 정의
+// ?: 선택적 필드 (null 허용)
+// []: 배열 타입 (1:N 관계에서 사용)

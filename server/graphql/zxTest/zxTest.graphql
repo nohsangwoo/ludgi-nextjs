@@ -1,0 +1,11 @@
+mutation zxTest {
+  zxTest {
+    ok
+    error
+    result {
+      stdout
+      stderr
+      duration
+    }
+  }
+}

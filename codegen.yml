@@ -1,0 +1,19 @@
+schema: http://127.0.0.1:3000/api/graphql
+documents: './server/graphql/**/*.graphql'
+generates:
+  ./server/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+    config:
+      documentMode: documentNode
+      subscriptionImportPath: graphql-ws
+  ./src/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+    config:
+      documentMode: documentNode
+      subscriptionImportPath: graphql-ws

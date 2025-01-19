@@ -1,0 +1,11 @@
+mutation updateUserForOptimisticUpdate($email: String!, $name: String) {
+  updateUserForOptimisticUpdate(email: $email, name: $name) {
+    ok
+    error
+    user {
+      id
+      email
+      name
+    }
+  }
+}

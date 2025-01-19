@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: redis_cache
+    restart: always
+    networks:
+      - ludgi-network
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server --appendonly yes  # 데이터 지속성을 위한 AOF 활성화
+
+networks:
+  ludgi-network:
+    name: ludgi-network
+    external: true  # postgres와 같은 네트워크 사용
+
+volumes:
+  redis_data:
+    name: redis_data 

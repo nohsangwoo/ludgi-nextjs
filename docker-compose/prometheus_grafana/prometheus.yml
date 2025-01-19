@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s # 데이터 수집 주기
+
+scrape_configs:
+  - job_name: 'nextjs'
+    static_configs:
+      - targets: ['ludgi-app:2000'] # "호스트명:포트"만 작성
+    metrics_path: '/api/metrics'    # 메트릭 경로는 별도로 설정
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['ludgi-grafana:4000'] # Grafana 컨테이너 이름과 내부 포트
