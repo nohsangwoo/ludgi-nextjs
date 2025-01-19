@@ -48,4 +48,6 @@ next-env.d.ts
 *storybook.log
 
 
+
 pnpm-lock.yaml
+server-status.json
