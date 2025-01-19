@@ -6,6 +6,7 @@ import chalk from 'chalk'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 import updateSchemaFile from './helper/updateSchemaFile'
+import waitForServerReady from './helper/waitForServerReady'
 
 const execPromise = promisify(exec)
 
@@ -207,7 +208,7 @@ const deleteGraphql = async () => {
         await updateSchemaFile()
         console.log('schema.ts updated')
 
-        await new Promise(resolve => setTimeout(resolve, 3000)) // 3초 대기
+        await waitForServerReady()
 
         // npm run generate 실행
         console.log(chalk.yellow('\n📦 Updating GraphQL types...'))

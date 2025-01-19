@@ -1,5 +1,7 @@
 {
-  "watch": ["server"],
+  "watch": ["server/**/*", "lib/**/*"],
   "ext": "ts,js,json",
-  "exec": "node -r @swc-node/register -r tsconfig-paths/register server/index.ts"
-} 
+  "events": {
+    "restart": "node scripts/resetServerStatus.js"
+  }
+}

@@ -27,6 +27,8 @@ import { Context } from './graphql/type'
 
 import expressClient from './lib/expressClient'
 import { schema } from './graphql/schema'
+import { updateServerStatusSync } from './lib/updateServerStatus'
+import { getServerStatusSync } from './lib/getServerStatusSyn'
 
 const port = parseInt(process.env.PORT as string, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -37,7 +39,29 @@ const handle = app.getRequestHandler()
 let isInitialServerConnection = true
 let isInitialConnection = true
 
+const serverReadyFlags = {
+  expressServer: false,
+  webSocketServer: false,
+  rabbitMQ: false,
+}
+
+function checkAndUpdateServerStatus() {
+  // 모든 서버가 준비되었는지 확인
+  if (
+    serverReadyFlags.expressServer &&
+    serverReadyFlags.webSocketServer &&
+    serverReadyFlags.rabbitMQ
+  ) {
+    updateServerStatusSync(true) // 상태를 true로 업데이트
+    console.log('✅ All services are ready!')
+  }
+}
+
+updateServerStatusSync(false) // 상태 업데이트
+
 app.prepare().then(async () => {
+  console.log('getServerStatusSync pre check: ', getServerStatusSync())
+
   // 필수 환경변수 검증 (미설정 시 즉시 종료)
   validateEnv()
 
@@ -56,7 +80,6 @@ app.prepare().then(async () => {
    * Consumer: rabbitMQClient.startConsuming('notification_queue', handler)
    */
 
-
   if (isInitialServerConnection) {
     try {
       // RabbitMQ 서버에 연결
@@ -70,8 +93,14 @@ app.prepare().then(async () => {
       await rabbitMQClient.startConsuming('logging_queue', loggingHandler)
 
       console.log('모든 RabbitMQ Consumer가 성공적으로 등록되었습니다!')
+
+      console.log(
+        '✅ RabbitMQ successfully connected and consumers registered.',
+      )
+      serverReadyFlags.rabbitMQ = true // RabbitMQ 준비 완료
+      checkAndUpdateServerStatus()
     } catch (error) {
-      console.error('RabbitMQ 설정 중 오류 발생:', error)
+      console.error('❌ RabbitMQ initialization failed:', error)
     } finally {
       isInitialServerConnection = false
     }
@@ -115,9 +144,6 @@ app.prepare().then(async () => {
     express.json(),
     expressMiddleware(apolloServer, {
       context: async ({ req, res }) => {
-
-        console.log('graphql touch check!')
-
         const ironsession = await getIronSession<SessionData>(
           req,
           res,
@@ -158,10 +184,18 @@ app.prepare().then(async () => {
   server.listen(port, (err?: unknown) => {
     if (err) throw err
     console.log(`> Ready on http://localhost:${port}`)
+
+    serverReadyFlags.expressServer = true // Express 서버 준비 완료
+    checkAndUpdateServerStatus()
+    console.log('getServerStatusSync post check: ', getServerStatusSync())
   })
 
-  // 서버 시작 (개발 환경에서만)
+  // 서버 시작
   wsHttpServer.listen(process.env.WEBSOCKET_PORT, () => {
-    console.log(`> WebSocket ready on ws://localhost:${process.env.WEBSOCKET_PORT}/api/graphql`)
+    console.log(
+      `> WebSocket ready on ws://localhost:${process.env.WEBSOCKET_PORT}/api/graphql`,
+    )
+    serverReadyFlags.webSocketServer = true // WebSocket 준비 완료
+    checkAndUpdateServerStatus()
   })
 })

@@ -6,6 +6,7 @@ import { promisify } from 'node:util'
 import { Table } from 'console-table-printer'
 import chalk from 'chalk'
 import updateSchemaFile from './helper/updateSchemaFile'
+import waitForServerReady from './helper/waitForServerReady'
 interface CreateOptions {
   name: string
 }
@@ -141,14 +142,16 @@ const create = async (options: CreateOptions) => {
     console.log(chalk.blue.bold('🚀 Creating GraphQL Resource...'))
     console.log(chalk.dim('====================================='))
 
-    const EVENT_NAME = type === 'subscription' ? `${name.toUpperCase()}_EVENT` : null
+    const EVENT_NAME =
+      type === 'subscription' ? `${name.toUpperCase()}_EVENT` : null
 
     // 필요한 파일들 생성
     const files = [
       {
         name: `${name}.graphql`,
-        content: type === 'subscription' 
-          ? `subscription ${name}($id: Int) {
+        content:
+          type === 'subscription'
+            ? `subscription ${name}($id: Int) {
   ${name}(id: $id) {
     id
     title
@@ -156,7 +159,7 @@ const create = async (options: CreateOptions) => {
   }
 }
 `
-          : `${type} ${name}(
+            : `${type} ${name}(
   $id: Int!
   $isActive: Boolean!
   $description: String!
@@ -177,8 +180,9 @@ const create = async (options: CreateOptions) => {
       },
       {
         name: `${name}.resolvers.ts`,
-        content: type === 'subscription'
-          ? `import type { Context } from '../type'
+        content:
+          type === 'subscription'
+            ? `import type { Context } from '../type'
 
 export const ${EVENT_NAME} = '${EVENT_NAME}'
 
@@ -193,8 +197,10 @@ const resolvers = {
 
 export default resolvers
 `
-          : `import type { Context } from '../type'
-import { ${capitalize(name)}${capitalize(type)}Variables } from '../../generated/graphql'
+            : `import type { Context } from '../type'
+import { ${capitalize(name)}${capitalize(
+                type,
+              )}Variables } from '../../generated/graphql'
 
 const resolvers = {
   ${capitalize(type)}: {
@@ -218,8 +224,9 @@ export default resolvers
       },
       {
         name: `${name}.typeDefs.ts`,
-        content: type === 'subscription'
-          ? `import { gql } from 'graphql-tag'
+        content:
+          type === 'subscription'
+            ? `import { gql } from 'graphql-tag'
 
 export default gql\`
   type Subscription {
@@ -233,7 +240,7 @@ export default gql\`
   }
 \`
 `
-          : `import { gql } from 'graphql-tag'
+            : `import { gql } from 'graphql-tag'
 
 export default gql\`
   type ${name}Result {
@@ -268,24 +275,22 @@ export default gql\`
 
     // 생성된 파일 정보 수집
     const createdFiles = [
-      { 
-        file: `${name}.graphql`, 
-        type: `${capitalize(type)} Definition`, 
-        status: '✅' 
+      {
+        file: `${name}.graphql`,
+        type: `${capitalize(type)} Definition`,
+        status: '✅',
       },
       { file: `${name}.resolvers.ts`, type: 'Resolver', status: '✅' },
       { file: `${name}.typeDefs.ts`, type: 'Type Definition', status: '✅' },
     ]
 
-    await new Promise(resolve => setTimeout(resolve, 3000)); // 3초 대기
+    await waitForServerReady()
 
     // npm run generate 실행
     console.log(chalk.yellow('\n📦 Generating GraphQL Types...'))
     const { stdout, stderr } = await execPromise('npm run generate', {
       shell: 'bash',
     })
-
-
 
     // apis.ts 파일 업데이트
     await updateApisFile()
@@ -336,7 +341,7 @@ export default gql\`
 
     // 롤백 실행
     try {
-      // await rollback()
+      await rollback()
     } catch (rollbackError) {
       console.error(chalk.red.bold('❌ Error during rollback:'))
       console.error(chalk.red(rollbackError))

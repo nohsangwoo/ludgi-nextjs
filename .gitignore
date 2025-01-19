@@ -46,3 +46,6 @@ analyze/
 next-env.d.ts
 
 *storybook.log
+
+
+pnpm-lock.yaml

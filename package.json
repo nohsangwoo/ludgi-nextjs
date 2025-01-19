@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f .env nodemon --exec \"node -r @swc-node/register -r tsconfig-paths/register server/index.ts\"",
+    "dev": "env-cmd -f .env nodemon --config nodemon.json --exec \"node -r @swc-node/register -r tsconfig-paths/register server/index.ts\"",
     "dev:watchnew": "env-cmd -f .env nodemon --watch server --ext ts,js,json --exec \"node -r @swc-node/register -r tsconfig-paths/register server/index.ts\"",
     "dev:server": "env-cmd -f .env nodemon --exec \"node -r @swc-node/register -r tsconfig-paths/register server/index.ts\"",
     "build:server": "rimraf dist && swc server -d dist/ --copy-files",
@@ -63,6 +63,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
     "env-cmd": "^10.1.0",
     "execa": "^9.5.2",
     "express": "^4.21.2",
@@ -140,7 +141,7 @@
     "eslint-config-next": "^15.1.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.11.2",
-    "ludgi-cli": "^2.3.0",
+    "ludgi-cli": "^2.4.0",
     "nodemon": "^3.1.9",
     "postcss": "^8",
     "prisma": "^6.2.1",
@@ -148,6 +149,7 @@
     "storybook": "^8.4.7",
     "swc-node": "^1.0.0",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   },
   "eslintConfig": {
