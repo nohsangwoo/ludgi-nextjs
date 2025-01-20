@@ -3,6 +3,7 @@ import { CreateUserMutationVariables } from '../../generated/graphql'
 import { Prisma } from '@prisma/client'
 import { z } from 'zod'
 import * as argon2 from 'argon2'
+import { expressRedisPubsub } from '../../lib/expressRedisPubsub'
 
 /**
  * Zod 스키마 정의
@@ -81,9 +82,11 @@ const resolvers = {
           },
         })
 
+        console.log('user: ', user)
+
         const { password, ...userWithoutPassword } = user
 
-        // 구독자들에게 새 사용자 생성 알림
+        // 구독자들에게 새 사용자 생성 알림 예제
         context.pubsub.publish('USER_CREATED', {
           userCreated: userWithoutPassword,
         })

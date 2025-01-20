@@ -10,6 +10,7 @@ import dogByNameResolvers from './dogByName/dogByName.resolvers'
 import getDogsResolvers from './getDogs/getDogs.resolvers'
 import getUsersWithPostsResolvers from './getUsersWithPosts/getUsersWithPosts.resolvers'
 import getUserWithRedisResolvers from './getUserWithRedis/getUserWithRedis.resolvers'
+import sendToSubscriptionTestResolvers from './sendToSubscriptionTest/sendToSubscriptionTest.resolvers'
 import typesResolvers from './types/types.resolvers'
 import updateUserResolvers from './updateUser/updateUser.resolvers'
 import updateUserForOptimisticUpdateResolvers from './updateUserForOptimisticUpdate/updateUserForOptimisticUpdate.resolvers'
@@ -22,6 +23,7 @@ import dogByNameTypeDefs from './dogByName/dogByName.typeDefs'
 import getDogsTypeDefs from './getDogs/getDogs.typeDefs'
 import getUsersWithPostsTypeDefs from './getUsersWithPosts/getUsersWithPosts.typeDefs'
 import getUserWithRedisTypeDefs from './getUserWithRedis/getUserWithRedis.typeDefs'
+import sendToSubscriptionTestTypeDefs from './sendToSubscriptionTest/sendToSubscriptionTest.typeDefs'
 import typesTypeDefs from './types/types.typeDefs'
 import updateUserTypeDefs from './updateUser/updateUser.typeDefs'
 import updateUserForOptimisticUpdateTypeDefs from './updateUserForOptimisticUpdate/updateUserForOptimisticUpdate.typeDefs'
@@ -36,6 +38,7 @@ export const resolvers = mergeResolvers([
   getDogsResolvers,
   getUsersWithPostsResolvers,
   getUserWithRedisResolvers,
+  sendToSubscriptionTestResolvers,
   typesResolvers,
   updateUserResolvers,
   updateUserForOptimisticUpdateResolvers,
@@ -51,6 +54,7 @@ export const typeDefs = mergeTypeDefs([
   getDogsTypeDefs,
   getUsersWithPostsTypeDefs,
   getUserWithRedisTypeDefs,
+  sendToSubscriptionTestTypeDefs,
   typesTypeDefs,
   updateUserTypeDefs,
   updateUserForOptimisticUpdateTypeDefs,

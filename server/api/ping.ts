@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { getServerStatusSync } from '../lib/getServerStatusSyn'
+import { getServerStatusSync } from '../helper/getServerStatusSyn'
 import chalk from 'chalk'
 
 // Express 라우터 핸들러

@@ -1,0 +1,11 @@
+mutation sendToSubscriptionTest {
+  sendToSubscriptionTest {
+    ok
+    error
+    userCreated {
+      id
+      email
+      name
+    }
+  }
+}

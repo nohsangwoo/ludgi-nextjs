@@ -12,6 +12,7 @@ export const {
   getDogs,
   getUsersWithPosts,
   getUserWithRedis,
+  sendToSubscriptionTest,
   updateUser,
   updateUserForOptimisticUpdate,
   userSubscription,

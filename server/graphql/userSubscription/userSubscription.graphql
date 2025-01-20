@@ -3,6 +3,5 @@ subscription userSubscription($email: String) {
     id
     email
     name
-    postsCount
   }
 }

@@ -7,9 +7,9 @@ export default function SubscriptionExample() {
   useSubscription(UserSubscriptionDocument, {
     onData: ({ data }) => {
       if (data.data) {
-        console.log('새로운 사용자:', data.data.userCreated)
+        console.log('새로운 사용자:', data.data.userSubscription)
       }
-    }
+    },
   })
 
   return <div>실시간 사용자 생성 알림</div>

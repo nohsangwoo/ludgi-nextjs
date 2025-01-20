@@ -83,7 +83,10 @@ const navigationItems: NavItem[] = [
   },
   {
     title: 'GraphQL',
-    items: [{ label: 'GraphQL', href: '/usage/graphqlSubscribeExample' }],
+    items: [
+      { label: 'Subscription', href: '/usage/graphqlSubscribeExample' },
+      { label: 'send to Subscription', href: '/usage/sendToSubscriptionExample' },
+    ],
   },
 ]
 
