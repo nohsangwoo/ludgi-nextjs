@@ -4,7 +4,7 @@ export default gql`
   type sendToSubscriptionTestResult {
     ok: Boolean!
     error: String
-    userCreated: User!
+    userSubscriptionPayload: User!
   }
 
   type Mutation {

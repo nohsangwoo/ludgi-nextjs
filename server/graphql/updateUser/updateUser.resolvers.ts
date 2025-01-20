@@ -1,5 +1,8 @@
 import type { Context } from '../type'
-import { UpdateUserMutationVariables } from '../../generated/graphql'
+import {
+  UpdateUserMutationVariables,
+  UpdateUserResult,
+} from '../../generated/graphql'
 import { Prisma } from '@prisma/client'
 import { z } from 'zod'
 
@@ -26,7 +29,7 @@ const resolvers = {
       _parent: unknown,
       args: UpdateUserMutationVariables,
       context: Context,
-    ) => {
+    ): Promise<UpdateUserResult> => {
       try {
         /**
          * 1단계: 입력값 검증
@@ -96,12 +99,20 @@ const resolvers = {
               name: args.name,
             },
             include: {
-              profile: true,
+              profile: {
+                include: {
+                  user: true  // profile에 user 정보를 포함
+                }
+              },
               posts: {
                 select: {
                   id: true,
                   title: true,
                   createdAt: true,
+                  updatedAt: true,
+                  author: true,
+                  authorId: true,
+                  published: true,
                 },
                 orderBy: { createdAt: 'desc' },
                 take: 5, // 최근 5개 포스트만 조회 (성능 최적화)

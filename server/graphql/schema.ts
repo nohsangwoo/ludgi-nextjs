@@ -8,6 +8,7 @@ import createUserResolvers from './createUser/createUser.resolvers'
 import deleteUserResolvers from './deleteUser/deleteUser.resolvers'
 import dogByNameResolvers from './dogByName/dogByName.resolvers'
 import getDogsResolvers from './getDogs/getDogs.resolvers'
+import getTestResolvers from './getTest/getTest.resolvers'
 import getUsersWithPostsResolvers from './getUsersWithPosts/getUsersWithPosts.resolvers'
 import getUserWithRedisResolvers from './getUserWithRedis/getUserWithRedis.resolvers'
 import sendToSubscriptionTestResolvers from './sendToSubscriptionTest/sendToSubscriptionTest.resolvers'
@@ -21,6 +22,7 @@ import createUserTypeDefs from './createUser/createUser.typeDefs'
 import deleteUserTypeDefs from './deleteUser/deleteUser.typeDefs'
 import dogByNameTypeDefs from './dogByName/dogByName.typeDefs'
 import getDogsTypeDefs from './getDogs/getDogs.typeDefs'
+import getTestTypeDefs from './getTest/getTest.typeDefs'
 import getUsersWithPostsTypeDefs from './getUsersWithPosts/getUsersWithPosts.typeDefs'
 import getUserWithRedisTypeDefs from './getUserWithRedis/getUserWithRedis.typeDefs'
 import sendToSubscriptionTestTypeDefs from './sendToSubscriptionTest/sendToSubscriptionTest.typeDefs'
@@ -36,6 +38,7 @@ export const resolvers = mergeResolvers([
   deleteUserResolvers,
   dogByNameResolvers,
   getDogsResolvers,
+  getTestResolvers,
   getUsersWithPostsResolvers,
   getUserWithRedisResolvers,
   sendToSubscriptionTestResolvers,
@@ -52,6 +55,7 @@ export const typeDefs = mergeTypeDefs([
   deleteUserTypeDefs,
   dogByNameTypeDefs,
   getDogsTypeDefs,
+  getTestTypeDefs,
   getUsersWithPostsTypeDefs,
   getUserWithRedisTypeDefs,
   sendToSubscriptionTestTypeDefs,

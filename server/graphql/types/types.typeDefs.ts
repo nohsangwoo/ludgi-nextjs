@@ -7,35 +7,37 @@ import { gql } from 'graphql-tag'
 // # 모든 기본 타입들을 한 곳에서 관리
 // # 또는 공유되는 되는 타입을 한곳에서 관리.
 export default gql`
+  scalar Date
+
   # 도메인 기본 타입 (Core Domain Types)
   # 애플리케이션의 핵심 데이터 모델
   # 보통 데이터베이스 스키마와 밀접하게 연관
   # 여러 기능에서 자주 재사용
   type Post {
-    id: ID!
-    createdAt: String!
-    updatedAt: String!
+    id: Int!
+    createdAt: Date!
+    updatedAt: Date!
     title: String!
     content: String
     published: Boolean!
     author: User!
-    authorId: ID!
+    authorId: Int!
   }
 
   type Profile {
-    id: ID!
+    id: Int!
     bio: String
     user: User!
-    userId: ID!
+    userId: Int!
   }
 
   type User {
-    id: ID!
+    id: Int!
     email: String!
     name: String
-    posts: [Post!]!
+    posts: [Post!]
     profile: Profile
-    postsCount: Int!
+    postsCount: Int
   }
 
   # 2. 기능별 공유 타입 (Shared Feature Types)

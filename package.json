@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f .env nodemon --config nodemon.json --exec \"node -r @swc-node/register -r tsconfig-paths/register server/index.ts\"",    
+    "dev": "env-cmd -f .env nodemon --config nodemon.json --exec \"node -r @swc-node/register -r tsconfig-paths/register server/index.ts\"",
     "postinstall": "prisma generate",
     "build:server": "rimraf dist && swc server -d dist/ --copy-files",
     "start:server": "node dist/server/index.js",
@@ -140,7 +140,7 @@
     "eslint-config-next": "^15.1.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.11.2",
-    "ludgi-cli": "^2.4.0",
+    "ludgi-cli": "^2.5.0",
     "nodemon": "^3.1.9",
     "postcss": "^8",
     "prisma": "^6.2.1",

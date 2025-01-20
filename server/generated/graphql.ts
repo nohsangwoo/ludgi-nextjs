@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
 };
 
 export type DogAttribute = {
@@ -97,27 +98,28 @@ export type MutationUpdateUserForOptimisticUpdateArgs = {
 export type Post = {
   __typename?: 'Post';
   author: User;
-  authorId: Scalars['ID']['output'];
+  authorId: Scalars['Int']['output'];
   content?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
+  createdAt: Scalars['Date']['output'];
+  id: Scalars['Int']['output'];
   published: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type Profile = {
   __typename?: 'Profile';
   bio?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   user: User;
-  userId: Scalars['ID']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
   dogByName?: Maybe<DogResult>;
   getDogs: Array<GetDogsResult>;
+  getTest: GetTestResult;
   getUserWithRedis: GetUserWithRedisResult;
   getUsersWithPosts: GetUsersWithPostsResult;
 };
@@ -127,9 +129,15 @@ export type QueryDogByNameArgs = {
   name: Scalars['String']['input'];
 };
 
+
+export type QueryGetTestArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['Int']['input'];
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
-  userSubscription?: Maybe<SubscriptionPayload>;
+  userSubscription?: Maybe<UserSubscriptionPayload>;
 };
 
 
@@ -137,21 +145,21 @@ export type SubscriptionUserSubscriptionArgs = {
   email?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type SubscriptionPayload = {
-  __typename?: 'SubscriptionPayload';
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   name?: Maybe<Scalars['String']['output']>;
-  posts: Array<Post>;
-  postsCount: Scalars['Int']['output'];
+  posts?: Maybe<Array<Post>>;
+  postsCount?: Maybe<Scalars['Int']['output']>;
   profile?: Maybe<Profile>;
+};
+
+export type UserSubscriptionPayload = {
+  __typename?: 'UserSubscriptionPayload';
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type CreateQueueMessageForRabbitMqResult = {
@@ -173,6 +181,12 @@ export type DeleteUserResult = {
   error?: Maybe<Scalars['String']['output']>;
   ok: Scalars['Boolean']['output'];
   user?: Maybe<User>;
+};
+
+export type GetTestResult = {
+  __typename?: 'getTestResult';
+  ok: Scalars['Boolean']['output'];
+  text: Scalars['String']['output'];
 };
 
 export type GetUserWithRedisResult = {
@@ -198,7 +212,7 @@ export type SendToSubscriptionTestResult = {
   __typename?: 'sendToSubscriptionTestResult';
   error?: Maybe<Scalars['String']['output']>;
   ok: Scalars['Boolean']['output'];
-  userCreated: User;
+  userSubscriptionPayload: User;
 };
 
 export type UpdateUserForOptimisticUpdateResult = {
@@ -237,14 +251,14 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'createUserResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: string, email: string, name?: string | null } | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'createUserResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: number, email: string, name?: string | null } | null } };
 
 export type DeleteUserMutationVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'deleteUserResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: string, email: string, name?: string | null } | null } };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'deleteUserResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: number, email: string, name?: string | null } | null } };
 
 export type DogByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -258,20 +272,28 @@ export type GetDogsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetDogsQuery = { __typename?: 'Query', getDogs: Array<{ __typename?: 'GetDogsResult', name: string, breed: string, ageInWeeks: number, image: string, sex: string, weight: number, fee: number }> };
 
+export type GetTestQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetTestQuery = { __typename?: 'Query', getTest: { __typename?: 'getTestResult', ok: boolean, text: string } };
+
 export type GetUserWithRedisQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserWithRedisQuery = { __typename?: 'Query', getUserWithRedis: { __typename?: 'getUserWithRedisResult', ok: boolean, users: Array<{ __typename?: 'User', id: string, name?: string | null, email: string, postsCount: number, posts: Array<{ __typename?: 'Post', id: string, title: string, content?: string | null, published: boolean }> }> } };
+export type GetUserWithRedisQuery = { __typename?: 'Query', getUserWithRedis: { __typename?: 'getUserWithRedisResult', ok: boolean, users: Array<{ __typename?: 'User', id: number, name?: string | null, email: string, postsCount?: number | null, posts?: Array<{ __typename?: 'Post', id: number, title: string, content?: string | null, published: boolean }> | null }> } };
 
 export type GetUsersWithPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersWithPostsQuery = { __typename?: 'Query', getUsersWithPosts: { __typename?: 'getUsersWithPostsResult', ok: boolean, users: Array<{ __typename?: 'User', id: string, name?: string | null, email: string }> } };
+export type GetUsersWithPostsQuery = { __typename?: 'Query', getUsersWithPosts: { __typename?: 'getUsersWithPostsResult', ok: boolean, users: Array<{ __typename?: 'User', id: number, name?: string | null, email: string }> } };
 
 export type SendToSubscriptionTestMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SendToSubscriptionTestMutation = { __typename?: 'Mutation', sendToSubscriptionTest: { __typename?: 'sendToSubscriptionTestResult', ok: boolean, error?: string | null, userCreated: { __typename?: 'User', id: string, email: string, name?: string | null } } };
+export type SendToSubscriptionTestMutation = { __typename?: 'Mutation', sendToSubscriptionTest: { __typename?: 'sendToSubscriptionTestResult', ok: boolean, error?: string | null, userSubscriptionPayload: { __typename?: 'User', id: number, email: string, name?: string | null } } };
 
 export type UpdateUserMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -279,7 +301,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'updateUserResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: string, email: string, name?: string | null } | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'updateUserResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: number, email: string, name?: string | null } | null } };
 
 export type UpdateUserForOptimisticUpdateMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -287,14 +309,14 @@ export type UpdateUserForOptimisticUpdateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserForOptimisticUpdateMutation = { __typename?: 'Mutation', updateUserForOptimisticUpdate: { __typename?: 'updateUserForOptimisticUpdateResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: string, email: string, name?: string | null } | null } };
+export type UpdateUserForOptimisticUpdateMutation = { __typename?: 'Mutation', updateUserForOptimisticUpdate: { __typename?: 'updateUserForOptimisticUpdateResult', ok: boolean, error?: string | null, user?: { __typename?: 'User', id: number, email: string, name?: string | null } | null } };
 
 export type UserSubscriptionSubscriptionVariables = Exact<{
   email?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type UserSubscriptionSubscription = { __typename?: 'Subscription', userSubscription?: { __typename?: 'SubscriptionPayload', id?: number | null, email?: string | null, name?: string | null } | null };
+export type UserSubscriptionSubscription = { __typename?: 'Subscription', userSubscription?: { __typename?: 'UserSubscriptionPayload', id?: number | null, email?: string | null, name?: string | null } | null };
 
 export type ZxTestMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -307,9 +329,10 @@ export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const DeleteUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode;
 export const DogByNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"dogByName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dogByName"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"breed"}},{"kind":"Field","name":{"kind":"Name","value":"ageInWeeks"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"sex"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode;
 export const GetDogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDogs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDogs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"breed"}},{"kind":"Field","name":{"kind":"Name","value":"ageInWeeks"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"sex"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"fee"}}]}}]}}]} as unknown as DocumentNode;
+export const GetTestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"description"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"description"},"value":{"kind":"Variable","name":{"kind":"Name","value":"description"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]} as unknown as DocumentNode;
 export const GetUserWithRedisDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserWithRedis"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserWithRedis"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"postsCount"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"published"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 export const GetUsersWithPostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUsersWithPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUsersWithPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode;
-export const SendToSubscriptionTestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sendToSubscriptionTest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendToSubscriptionTest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"userCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const SendToSubscriptionTestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sendToSubscriptionTest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendToSubscriptionTest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"userSubscriptionPayload"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode;
 export const UpdateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode;
 export const UpdateUserForOptimisticUpdateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateUserForOptimisticUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUserForOptimisticUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode;
 export const UserSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"userSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userSubscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode;
@@ -336,6 +359,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getDogs(variables?: GetDogsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetDogsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDogsQuery>(GetDogsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDogs', 'query', variables);
+    },
+    getTest(variables: GetTestQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetTestQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTestQuery>(GetTestDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTest', 'query', variables);
     },
     getUserWithRedis(variables?: GetUserWithRedisQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetUserWithRedisQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserWithRedisQuery>(GetUserWithRedisDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserWithRedis', 'query', variables);

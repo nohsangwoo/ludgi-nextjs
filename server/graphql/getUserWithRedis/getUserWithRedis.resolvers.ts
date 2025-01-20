@@ -1,6 +1,9 @@
 import type { Context } from '../type'
 import redis, { CACHE_TTL } from '../../lib/redis'
-import { GetUserWithRedisQueryVariables } from '../../generated/graphql'
+import {
+  GetUserWithRedisQueryVariables,
+  GetUserWithRedisResult,
+} from '../../generated/graphql'
 
 const resolvers = {
   // query 타입의 루트 리졸버
@@ -9,7 +12,7 @@ const resolvers = {
       _parent: unknown,
       args: GetUserWithRedisQueryVariables,
       context: Context,
-    ) => {
+    ): Promise<GetUserWithRedisResult> => {
       try {
         // 1. Redis에서 캐시 확인
         const cachedUsers = await redis.get('users:withPosts')

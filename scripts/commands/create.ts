@@ -183,14 +183,23 @@ const create = async (options: CreateOptions) => {
         content:
           type === 'subscription'
             ? `import type { Context } from '../type'
-
+import { expressRedisPubsub } from '../../lib/expressRedisPubsub'
+import { ${capitalize(name)}Payload, ${capitalize(name)}${capitalize(type)}Variables } from '../../generated/graphql'
 export const ${EVENT_NAME} = '${EVENT_NAME}'
 
 const resolvers = {
   Subscription: {
     ${name}: {
-      subscribe: (_parent: unknown, _args: unknown, context: Context) => 
-        context.pubsub.asyncIterator([${EVENT_NAME}])
+      subscribe: (
+        _parent: unknown,
+        _args: ${capitalize(name)}${capitalize(type)}Variables,
+        context: Context,
+      ): AsyncIterator<${capitalize(name)}Payload> => {
+        return expressRedisPubsub.asyncIterator([${EVENT_NAME}])
+      },
+      resolve: (payload: any): Promise<${capitalize(name)}Payload> => {
+        return payload.${capitalize(name)}Payload
+      },
     }
   }
 }
@@ -208,7 +217,7 @@ const resolvers = {
       _parent: unknown,
       args: ${capitalize(name)}${capitalize(type)}Variables,
       context: Context,
-    ) => {
+    ): Promise<${capitalize(name)}Result> => {
       // TODO: Implement your resolver logic
       return {
         title: "Sample Title",
@@ -230,10 +239,10 @@ export default resolvers
 
 export default gql\`
   type Subscription {
-    ${name}(id: Int): ${capitalize(name)}Result!
+    ${name}(id: Int): ${capitalize(name)}Payload!
   }
 
-  type ${capitalize(name)}Result {
+  type ${capitalize(name)}Payload {
     id: Int!
     title: String!
     description: String!

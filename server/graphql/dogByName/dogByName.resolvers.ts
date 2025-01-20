@@ -1,6 +1,6 @@
 import dogs from './dogs.json' assert { type: 'json' }
 import { Context } from '../type'
-import { DogByNameQueryVariables } from '../../generated/graphql'
+import { DogByNameQueryVariables, DogResult } from '../../generated/graphql'
 // var _ = require('lodash');
 import _ from 'lodash'
 
@@ -10,7 +10,7 @@ const resolvers = {
       _parent: unknown,
       args: DogByNameQueryVariables,
       context: Context,
-    ) => {
+    ): Promise<DogResult> => {
       const { name } = args
       const dog = dogs.find(dog => dog.name === name)
 

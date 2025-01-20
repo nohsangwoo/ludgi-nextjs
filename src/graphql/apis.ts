@@ -10,6 +10,7 @@ export const {
   deleteUser,
   dogByName,
   getDogs,
+  getTest,
   getUsersWithPosts,
   getUserWithRedis,
   sendToSubscriptionTest,

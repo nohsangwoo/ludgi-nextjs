@@ -1,0 +1,6 @@
+query getTest($id: Int!, $description: String) {
+  getTest(id: $id, description: $description) {
+    ok
+    text
+  }
+}

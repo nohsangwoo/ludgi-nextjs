@@ -2,7 +2,7 @@ mutation sendToSubscriptionTest {
   sendToSubscriptionTest {
     ok
     error
-    userCreated {
+    userSubscriptionPayload {
       id
       email
       name

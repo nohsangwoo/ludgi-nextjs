@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
 import figlet from 'figlet'
-// import fs from 'fs'
-// import path from 'path'
 import createCommand from './commands/create'
 import deleteCommand from './commands/delete'
 import listCommand from './commands/list'

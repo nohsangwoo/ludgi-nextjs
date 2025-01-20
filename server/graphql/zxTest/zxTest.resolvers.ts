@@ -1,5 +1,5 @@
 import type { Context } from '../type';
-import { ZxTestMutationVariables } from '../../generated/graphql';
+import { ZxTestMutationVariables, ZxTestResult } from '../../generated/graphql';
 import { $ } from 'zx';
 
 const resolvers = {
@@ -8,7 +8,7 @@ const resolvers = {
       _parent: unknown,
       args: ZxTestMutationVariables,
       context: Context,
-    ) => {
+    ): Promise<ZxTestResult> => {
       // 이런 zx를 이용하려면 방어코드가 필수적임.
       // 허용된 명령어 리스트를 정의하고, 미리 정의된 안전한 명령어만 실행하는 것이 좋음.
       // 1. 허용된 명령어 리스트 정의 후 사용

@@ -1,5 +1,5 @@
 import type { Context } from '../type'
-import type { User } from '@prisma/client'
+import type { Post, User } from '@prisma/client'
 import redis, { CACHE_TTL } from '../../lib/redis'
 
 const resolvers = {
@@ -8,7 +8,11 @@ const resolvers = {
   User: {
     // 여기 있는 개별 메서드들이 필드 리졸버
     // posts 필드를 해석하는 리졸버
-    posts: async (parent: User, _args: unknown, context: Context) => {
+    posts: async (
+      parent: User,
+      _args: unknown,
+      context: Context,
+    ): Promise<Post[]> => {
       try {
         // 1. 사용자의 posts 캐시 확인
         const cacheKey = `user:${parent.id}:posts`
@@ -42,7 +46,11 @@ const resolvers = {
       }
     },
 
-    postsCount: async (parent: User, _args: unknown, context: Context) => {
+    postsCount: async (
+      parent: User,
+      _args: unknown,
+      context: Context,
+    ): Promise<number> => {
       try {
         // 1. 사용자의 postsCount 캐시 확인
         const cacheKey = `user:${parent.id}:postsCount`

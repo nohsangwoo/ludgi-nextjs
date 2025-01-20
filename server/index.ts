@@ -98,7 +98,6 @@ app.prepare().then(async () => {
 
     global.serverReadyFlags.expressServer = true // Express 서버 준비 완료
     checkAndUpdateServerStatus(global.serverReadyFlags)
-    console.log('getServerStatusSync post check: ', getServerStatusSync())
   })
 
   // 서버 시작

@@ -1,13 +1,13 @@
 import { gql } from 'graphql-tag'
 
 export default gql`
-  type SubscriptionPayload {
+  type UserSubscriptionPayload {
     id: Int
     email: String
     name: String
   }
 
   type Subscription {
-    userSubscription(email: String): SubscriptionPayload
+    userSubscription(email: String): UserSubscriptionPayload
   }
 `

@@ -1,7 +1,10 @@
 import type { Context } from '../type'
 import { Prisma } from '@prisma/client'
 import { z } from 'zod'
-import { DeleteUserMutationVariables } from '../../generated/graphql'
+import {
+  DeleteUserMutationVariables,
+  DeleteUserResult,
+} from '../../generated/graphql'
 
 /**
  * Zod를 사용한 사용자 삭제 입력값 검증 스키마
@@ -21,7 +24,7 @@ const resolvers = {
       _parent: unknown,
       args: DeleteUserMutationVariables,
       context: Context,
-    ) => {
+    ): Promise<DeleteUserResult> => {
       try {
         /**
          * 1단계: 입력값 검증
