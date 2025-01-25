@@ -1,274 +1,333 @@
-# node version
+# LUDGI's nextjs Project Setup and Documentation
 
-- v22.12.0
+## Node Version
 
-# 패키지 설치 및 실행
+Ensure you are using the following Node.js version:
+
+- **v22.12.0**
+
+---
+
+## Installation and Running the Project
+
+### Package Installation
 
 ```bash
-# pnpm install
 pnpm install
-
 ```
 
-# project 실행
+### Start the Project
 
 ```bash
 pnpm run dev
 ```
 
-# postgres setting
+---
+
+## PostgreSQL Setup
+
+### Start PostgreSQL Service
 
 ```bash
-# up
-  cd docker-compose/postgres
-  docker compose -f postgres-compose.yml up --build -d
+cd docker-compose/postgres
+docker compose -f postgres-compose.yml up --build -d
 ```
 
+### Access PostgreSQL Container
+
 ```bash
-# exec
-  docker exec -it postgres_db bash
+docker exec -it postgres_db bash
 ```
 
-### 접속이 된다면 prisma 설정을 진행하여 db생성 및 연결을 진행합니다. prisma의 기본 설정된 데이터베이스 이름은 mydb 입니다.
+### Connect to the Database
+
+Ensure the database `mydb` is created and configured properly.
 
 ```bash
-# psql connect
-  psql -U postgres -d mydb
+psql -U postgres -d mydb
 ```
 
-```bash
-# down
-  docker-compose -f postgres-compose.yml down
-```
+### Shut Down PostgreSQL Service
 
 ```bash
-#   volume
+docker compose -f postgres-compose.yml down
+```
+
+### Manage Volumes
+
+- **List Volumes**
+  ```bash
   docker volume ls
-```
-
-```bash
-# volume inspect
+  ```
+- **Inspect Volume**
+  ```bash
   docker volume inspect postgres_db_volume
-```
-
-```bash
-# volume remove
+  ```
+- **Remove Volume**
+  ```bash
   docker volume rm postgres_db_volume
-```
+  ```
 
-```bash
-# show port
+### PostgreSQL Commands
+
+- **Show Port**
+  ```bash
   psql -U postgres -d mydb -c "SHOW PORT;"
-```
-
-```bash
-# show all user
+  ```
+- **List Users**
+  ```bash
   psql -U postgres -d mydb -c "\du"
-```
-
-```bash
-# show all database
+  ```
+- **List Databases**
+  ```bash
   psql -U postgres -d mydb -c "\l"
-```
-
-```bash
-# create database
+  ```
+- **Create Database**
+  ```bash
   psql -U postgres -d mydb -c "CREATE DATABASE mydb;"
-```
-
-```bash
-# create table
+  ```
+- **Create Table**
+  ```bash
   psql -U postgres -d mydb -c "CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(255), email VARCHAR(255));"
-```
-
-```bash
-# create user
+  ```
+- **Create User**
+  ```bash
   psql -U postgres -d mydb -c "CREATE USER myuser WITH PASSWORD 'mypassword';"
-```
-
-```bash
-# grant all privileges on database mydb to myuser;
+  ```
+- **Grant Privileges**
+  ```bash
   psql -U postgres -d mydb -c "GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser;"
-```
+  ```
 
-# prisma setting
+---
 
-- ref: https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases-typescript-postgresql
+## Prisma Setup
 
-```bash
-# prisma migrate
-  npx prisma migrate dev
-```
+### Database Migration
 
 ```bash
-# prisma studio
+npx prisma migrate dev
+```
+
+### Open Prisma Studio
+
+```bash
 npx prisma studio
 ```
 
-# prisma code generate
+### Generate Prisma Client Code
 
 ```bash
-# prisma code generate
-  npx prisma generate
+npx prisma generate
 ```
 
-# prisma studio
+---
 
-npx prisma studio
+## GraphQL Code Generation
 
-# graphql codegen
+- Refer to the following resources:
+  - [GraphQL Documentation](https://www.npmjs.com/package/graphql)
+  - [Code Generation Guide](https://the-guild.dev/graphql/codegen)
 
-- ref: https://www.npmjs.com/package/graphql
-- ref: https://the-guild.dev/graphql/codegen
+---
 
-# analyze
+## Code Analysis
 
-- ref: https://www.npmjs.com/package/@next/bundle-analyzer
+### Run Bundle Analysis
 
 ```bash
-# analyze
-  npx run analyze
+npx run analyze
 ```
 
-# cli usage
+---
 
-commander와 inquirer의 조합으로 사용자가 쉽게 사용할 수 있도록 구성되었습니다.
+## CLI Usage
 
-```bash
-# version
+This project uses [`commander`](https://www.npmjs.com/package/commander) and [`inquirer`](https://www.npmjs.com/package/inquirer) for an intuitive command-line interface. The CLI tool can be explored further at its [npm package page](https://www.npmjs.com/package/ludgi-cli).
+
+- **Check Version**
+  ```bash
   npx ludgi-cli -V
-```
-
-```bash
-# create
+  ```
+- **Create a New Command**
+  ```bash
   npx ludgi-cli -n getUserProfile
-```
-
-```bash
-# delete
+  ```
+- **Delete a Command**
+  ```bash
   npx ludgi-cli -d
-```
-
-```bash
-# list
+  ```
+- **List All Commands**
+  ```bash
   npx ludgi-cli -l
-```
+  ```
 
-# react hook form with zod
+---
 
-- ref: https://react-hook-form.com/get-started#SchemaValidation
-- ref: https://github.com/react-hook-form/resolvers?tab=readme-ov-file#zod
+## React Hook Form with Zod
 
-# next-safe-action
+- Resources:
+  - [React Hook Form](https://react-hook-form.com/get-started#SchemaValidation)
+  - [Resolvers for Zod](https://github.com/react-hook-form/resolvers?tab=readme-ov-file#zod)
 
-- ref: https://next-safe-action.dev/docs/getting-started
+---
 
-# 왜 고민 nextjs와 shadcn 홈피 톤과 디자인처럼 동일하게 구현
+## Next-Safe-Action
 
-docker builder prune  
-docker compose -f app-compose.yml down
-docker compose -f app-compose.yml up --build -d
-docker compose -f docker-compose/app/app-compose.yml up --build -d
+- Documentation: [Next-Safe-Action](https://next-safe-action.dev/docs/getting-started)
 
-# 왜 고민 nextjs와 shadcn 홈피 톤과 디자인처럼 동일하게 구현
+---
 
-# eslint
+## ESLint Setup
 
-- ref: https://nextjs.org/docs/app/api-reference/config/eslint
-- ref: https://github.com/prettier/eslint-config-prettier
+- Documentation:
+  - [Next.js ESLint Configuration](https://nextjs.org/docs/app/api-reference/config/eslint)
+  - [Prettier ESLint Config](https://github.com/prettier/eslint-config-prettier)
 
-# storybook
+---
 
-- ref: https://storybook.js.org/
-- npm run storybook
+## Storybook
 
-# cypress
+- Documentation: [Storybook](https://storybook.js.org/)
+- Start Storybook:
+  ```bash
+  npm run storybook
+  ```
 
-- ref: https://www.cypress.io/
-- npm run cy:open
+---
 
-# redis
+## Cypress
 
-- ref: https://redis.io/
+- Documentation: [Cypress](https://www.cypress.io/)
+- Open Cypress:
+  ```bash
+  npm run cy:open
+  ```
 
-```bash
-  # 컨테이너 실행 자동 스크립트
-  sh docker-compose/redis/up.sh
-```
+---
 
-```bash
-  # 컨테이너 실행 (백그라운드에서)
-  docker compose -f docker-compose/redis/redis-compose.yml up -d
+## Redis Setup
 
-  # 비밀번호 설정 - 비밀번호를 변경하시면 .env 파일에도 변경해주세요.
-  docker exec redis_cache redis-cli CONFIG SET requirepass ludgi1234
-
-  # 비밀번호 설정 확인
-  docker exec redis_cache bash -c 'echo "PING" | redis-cli -a ludgi1234 2>/dev/null'
-```
+### Start Redis Container
 
 ```bash
-  # 컨테이너 중지
-  docker compose -f docker-compose/redis/redis-compose.yml down
+sh docker-compose/redis/up.sh
 ```
+
+### Start Redis in Background
 
 ```bash
-# redis-cli in docker
-  docker exec -it redis_cache redis-cli
+docker compose -f docker-compose/redis/redis-compose.yml up -d
 ```
 
-# 더미 데이터 생성
+### Configure Password
 
-- 더미 데이터 생성
-  npx tsx scripts/createDummyData.ts
+Update `.env` file to reflect the new password.
 
-# rabbitqm
+```bash
+docker exec redis_cache redis-cli CONFIG SET requirepass ludgi1234
+```
 
-- 컨테이너 실행 (백그라운드에서)
-  docker compose -f docker-compose/rabbitmq/rabbitmq-compose.yml up -d
+### Verify Password
 
-- 컨테이너 중지
-  docker compose -f docker-compose/rabbitmq/rabbitmq-compose.yml down
+```bash
+docker exec redis_cache bash -c 'echo "PING" | redis-cli -a ludgi1234 2>/dev/null'
+```
 
-접속( rabbitmq-compose.yml 설정에서 변경하세요.)
-http://localhost:15672/
-기본 아이디: admin
-기본 비밀번호: admin123
+### Stop Redis Container
 
-# prometheus and grafana
+```bash
+docker compose -f docker-compose/redis/redis-compose.yml down
+```
+
+### Access Redis CLI in Docker
+
+```bash
+docker exec -it redis_cache redis-cli
+```
+
+---
+
+## Dummy Data Generation
+
+Generate dummy data for development purposes:
+
+```bash
+npx tsx scripts/createDummyData.ts
+```
+
+---
+
+## RabbitMQ
+
+### Start RabbitMQ Container
+
+```bash
+docker compose -f docker-compose/rabbitmq/rabbitmq-compose.yml up -d
+```
+
+### Stop RabbitMQ Container
+
+```bash
+docker compose -f docker-compose/rabbitmq/rabbitmq-compose.yml down
+```
+
+### Access RabbitMQ Management Console
+
+- URL: [http://localhost:15672/](http://localhost:15672/)
+- Default Credentials:
+  - Username: `admin`
+  - Password: `admin123`
+
+---
+
+## Prometheus and Grafana
+
+### Start Prometheus and Grafana
 
 ```bash
 docker compose -f docker-compose/prometheus_grafana/prometheus-grafana-compose.yml up -d
 ```
 
-Prometheus 웹 UI: http://localhost:9090
+### Access Web Interfaces
 
-Grafana 웹 UI: http://localhost:8081
+- **Prometheus**: [http://localhost:9090](http://localhost:9090)
+- **Grafana**: [http://localhost:8081](http://localhost:8081)
 
-# nextjs와 연동
+---
 
+## Next.js Integration
+
+Install Prometheus client for metrics:
+
+```bash
 npm install prom-client
+```
 
-- endpoint: /api/metrics
-- example api: /api/example
+- Metrics Endpoint: `/api/metrics`
+- Example API: `/api/example`
 
-# Graphql
+---
 
-### 필드 셀렉션 (Field Selection)
+## GraphQL
 
-- ref:
-- ref: https://www.graphql-java.com/documentation/field-selection/
+### Field Selection
 
-### 리졸버 (Resolver)
+- Refer to the [Field Selection Documentation](https://www.graphql-java.com/documentation/field-selection/).
 
-- ref: https://graphql.org/learn/execution/
+### Resolvers
 
+- Learn more about [GraphQL Resolvers](https://graphql.org/learn/execution/).
 
-| 타입 정의 | 설명                                 | 예시                |
-|-----------|-------------------------------------|---------------------|
-| 루트 타입   | API 요청의 진입점                   | Query, Mutation 등  |
-| 커스텀 타입 | 루트 타입에서 사용되는 데이터 구조     | User, Post, Comment |
+---
 
+## Type Definitions and Descriptions
 
-### graphql-ws doc
-- ref: https://github.com/enisdenjo/graphql-ws/blob/master/README.md
+| Type Definition | Description                  | Example             |
+| --------------- | ---------------------------- | ------------------- |
+| Root Type       | Entry point for API requests | Query, Mutation     |
+| Custom Type     | Data structure used by API   | User, Post, Comment |
+
+---
+
+# ludgi-nextjs
