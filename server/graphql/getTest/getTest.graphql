@@ -2,5 +2,9 @@ query getTest($id: Int!, $description: String) {
   getTest(id: $id, description: $description) {
     ok
     text
+    # 필드셀렉션으로 데이터 제어하기
+    child {
+      childText
+    }
   }
 }

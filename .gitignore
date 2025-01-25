@@ -33,8 +33,8 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-# .env*
-# .env
+.env*
+.env
 
 analyze/
 
@@ -47,7 +47,6 @@ next-env.d.ts
 
 *storybook.log
 
-
+server-status.json
 
 pnpm-lock.yaml
-server-status.json

@@ -1,11 +1,21 @@
 {
   "module": {
-    "type": "commonjs"
+    "type": "es6",
+    "strict": true,
+    "strictMode": true,
+    "lazy": false,
+    "noInterop": false
   },
   "jsc": {
-    "target": "es2021",
     "parser": {
-      "syntax": "typescript"
-    }
-  }
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "es2022",
+    "loose": false,
+    "externalHelpers": false
+  },
+  "sourceMaps": true
 }

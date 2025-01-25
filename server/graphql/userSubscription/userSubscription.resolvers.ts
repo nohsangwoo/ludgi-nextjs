@@ -12,6 +12,8 @@ const resolvers = {
         _args: UserSubscriptionSubscriptionVariables,
         context: Context,
       ): AsyncIterator<UserSubscriptionPayload> => {
+
+        console.log("context pubsub check: ", context.pubsub)
         console.log('touch subscribe args: ', _args)
         return expressRedisPubsub.asyncIterator(USER_CREATED)
       },

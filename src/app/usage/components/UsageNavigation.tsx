@@ -84,9 +84,12 @@ const navigationItems: NavItem[] = [
   {
     title: 'GraphQL',
     items: [
-      { label: 'Subscription', href: '/usage/graphqlSubscribeExample' },
-      { label: 'Send to Subscription', href: '/usage/sendToSubscriptionExample' },
       { label: 'PureQueryUsage', href: '/usage/getTestExample' },
+      { label: 'FieldSelection', href: '/usage/fieldSelectionExample' },
+
+      { label: 'Subscription', href: '/usage/testSubscriptionExample' },
+      { label: 'Publish V1', href: '/usage/sendToSubscriptionExample' },
+      { label: 'Publish V2', href: '/usage/testMutationExample' },
     ],
   },
 ]

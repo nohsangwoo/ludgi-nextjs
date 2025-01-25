@@ -7,44 +7,13 @@ import { Table } from 'console-table-printer'
 import chalk from 'chalk'
 import updateSchemaFile from './helper/updateSchemaFile'
 import waitForServerReady from './helper/waitForServerReady'
+import capitalize from './helper/capitalize'
+import updateApisFile from './helper/updateApisFile'
 interface CreateOptions {
   name: string
 }
 
 const execPromise = promisify(exec)
-
-// 첫 글자를 대문자로 변환하는 헬퍼 함수
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
-
-const updateApisFile = async () => {
-  const apisPath = path.join(process.cwd(), 'src/graphql/apis.ts')
-  const graphqlPath = path.join(process.cwd(), 'server/graphql')
-
-  // 디렉토리만 필터링
-  const directories = fs
-    .readdirSync(graphqlPath)
-    .filter(item => {
-      const isDirectory = fs
-        .statSync(path.join(graphqlPath, item))
-        .isDirectory()
-      return isDirectory && item !== 'types' // types 디렉토리 제외
-    })
-    .map(dir => `  ${dir}`)
-
-  // apis.ts 파일 내용 업데이트
-  const apisContent = `import { GraphQLClient } from 'graphql-request'
-import { getSdk } from '../generated/graphql'
-import { API_URL } from '../../server/lib/consts'
-
-const gqlClient = new GraphQLClient(API_URL)
-
-export const { 
-${directories.join(',\n')} 
-} = getSdk(gqlClient)
-`
-
-  fs.writeFileSync(apisPath, apisContent)
-}
 
 const create = async (options: CreateOptions) => {
   const { name } = options
@@ -184,7 +153,9 @@ const create = async (options: CreateOptions) => {
           type === 'subscription'
             ? `import type { Context } from '../type'
 import { expressRedisPubsub } from '../../lib/expressRedisPubsub'
-import { ${capitalize(name)}Payload, ${capitalize(name)}${capitalize(type)}Variables } from '../../generated/graphql'
+import { ${capitalize(name)}Payload, ${capitalize(name)}${capitalize(
+                type,
+              )}Variables } from '../../generated/graphql'
 export const ${EVENT_NAME} = '${EVENT_NAME}'
 
 const resolvers = {
@@ -209,7 +180,7 @@ export default resolvers
             : `import type { Context } from '../type'
 import { ${capitalize(name)}${capitalize(
                 type,
-              )}Variables } from '../../generated/graphql'
+              )}Variables, ${capitalize(name)}Result } from '../../generated/graphql'
 
 const resolvers = {
   ${capitalize(type)}: {

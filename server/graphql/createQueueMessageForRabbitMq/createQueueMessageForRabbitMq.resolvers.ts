@@ -3,7 +3,7 @@ import {
   CreateQueueMessageForRabbitMqMutationVariables,
   CreateQueueMessageForRabbitMqResult,
 } from '../../generated/graphql'
-import rabbitMQClient from '../../lib/rabbitmq'
+import rabbitMQClient from '../../lib/rabbitmqProducerClient'
 
 const resolvers = {
   Mutation: {

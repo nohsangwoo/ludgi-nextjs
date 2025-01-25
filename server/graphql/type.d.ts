@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { Request, Response } from 'express'
 import SessionData from '../lib/session'
-import RabbitMQClient from '../lib/rabbitmq'
+import RabbitMQClient from '../lib/rabbitmqProducerClient'
 import { IronSession } from 'iron-session'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 

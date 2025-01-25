@@ -1,0 +1,17 @@
+mutation testMutation(
+  $id: Int!
+  $isActive: Boolean!
+  $description: String!
+  $amount: Float!
+) {
+  testMutation(
+    id: $id
+    isActive: $isActive
+    description: $description
+    amount: $amount
+  ) {
+    title
+    price
+    isAvailable
+  }
+}

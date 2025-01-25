@@ -1,0 +1,17 @@
+mutation publishTest(
+  $id: Int!
+  $isActive: Boolean!
+  $description: String!
+  $amount: Float!
+) {
+  publishTest(
+    id: $id
+    isActive: $isActive
+    description: $description
+    amount: $amount
+  ) {
+    title
+    price
+    isAvailable
+  }
+}

@@ -7,6 +7,7 @@ import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 import updateSchemaFile from './helper/updateSchemaFile'
 import waitForServerReady from './helper/waitForServerReady'
+import updateApisFile from './helper/updateApisFile'
 
 const execPromise = promisify(exec)
 
@@ -22,35 +23,6 @@ const getOperationType = (resolverPath: string): string => {
   } catch (error) {
     return '❌ Error'
   }
-}
-
-const updateApisFile = async () => {
-  const apisPath = path.join(process.cwd(), 'src/graphql/apis.ts')
-  const graphqlPath = path.join(process.cwd(), 'server/graphql')
-
-  const directories = fs
-    .readdirSync(graphqlPath)
-    .filter(item => {
-      const isDirectory = fs
-        .statSync(path.join(graphqlPath, item))
-        .isDirectory()
-      return isDirectory && item !== 'types' // types 디렉토리 제외
-    })
-    .map(dir => `  ${dir}`)
-
-  // apis.ts 파일 내용 업데이트
-  const apisContent = `import { GraphQLClient } from 'graphql-request'
-import { getSdk } from '../generated/graphql'
-import { API_URL } from '../../server/lib/consts'
-
-const gqlClient = new GraphQLClient(API_URL)
-
-export const { 
-${directories.join(',\n')} 
-} = getSdk(gqlClient)
-`
-
-  fs.writeFileSync(apisPath, apisContent)
 }
 
 const deleteGraphql = async () => {

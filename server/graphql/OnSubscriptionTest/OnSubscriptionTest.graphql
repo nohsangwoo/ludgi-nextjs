@@ -1,0 +1,7 @@
+subscription OnSubscriptionTest($id: Int) {
+  OnSubscriptionTest(id: $id) {
+    id
+    title
+    description
+  }
+}

@@ -11,7 +11,10 @@ import getDogsResolvers from './getDogs/getDogs.resolvers'
 import getTestResolvers from './getTest/getTest.resolvers'
 import getUsersWithPostsResolvers from './getUsersWithPosts/getUsersWithPosts.resolvers'
 import getUserWithRedisResolvers from './getUserWithRedis/getUserWithRedis.resolvers'
+import OnSubscriptionTestResolvers from './OnSubscriptionTest/OnSubscriptionTest.resolvers'
+import publishTestResolvers from './publishTest/publishTest.resolvers'
 import sendToSubscriptionTestResolvers from './sendToSubscriptionTest/sendToSubscriptionTest.resolvers'
+import testMutationResolvers from './testMutation/testMutation.resolvers'
 import typesResolvers from './types/types.resolvers'
 import updateUserResolvers from './updateUser/updateUser.resolvers'
 import updateUserForOptimisticUpdateResolvers from './updateUserForOptimisticUpdate/updateUserForOptimisticUpdate.resolvers'
@@ -25,7 +28,10 @@ import getDogsTypeDefs from './getDogs/getDogs.typeDefs'
 import getTestTypeDefs from './getTest/getTest.typeDefs'
 import getUsersWithPostsTypeDefs from './getUsersWithPosts/getUsersWithPosts.typeDefs'
 import getUserWithRedisTypeDefs from './getUserWithRedis/getUserWithRedis.typeDefs'
+import OnSubscriptionTestTypeDefs from './OnSubscriptionTest/OnSubscriptionTest.typeDefs'
+import publishTestTypeDefs from './publishTest/publishTest.typeDefs'
 import sendToSubscriptionTestTypeDefs from './sendToSubscriptionTest/sendToSubscriptionTest.typeDefs'
+import testMutationTypeDefs from './testMutation/testMutation.typeDefs'
 import typesTypeDefs from './types/types.typeDefs'
 import updateUserTypeDefs from './updateUser/updateUser.typeDefs'
 import updateUserForOptimisticUpdateTypeDefs from './updateUserForOptimisticUpdate/updateUserForOptimisticUpdate.typeDefs'
@@ -41,7 +47,10 @@ export const resolvers = mergeResolvers([
   getTestResolvers,
   getUsersWithPostsResolvers,
   getUserWithRedisResolvers,
+  OnSubscriptionTestResolvers,
+  publishTestResolvers,
   sendToSubscriptionTestResolvers,
+  testMutationResolvers,
   typesResolvers,
   updateUserResolvers,
   updateUserForOptimisticUpdateResolvers,
@@ -58,7 +67,10 @@ export const typeDefs = mergeTypeDefs([
   getTestTypeDefs,
   getUsersWithPostsTypeDefs,
   getUserWithRedisTypeDefs,
+  OnSubscriptionTestTypeDefs,
+  publishTestTypeDefs,
   sendToSubscriptionTestTypeDefs,
+  testMutationTypeDefs,
   typesTypeDefs,
   updateUserTypeDefs,
   updateUserForOptimisticUpdateTypeDefs,

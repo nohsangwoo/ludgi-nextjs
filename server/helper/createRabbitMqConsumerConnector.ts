@@ -1,5 +1,8 @@
-import rabbitMQClient from './../lib/expressRabbitmq'
-import checkAndUpdateServerStatus from './checkAndUpdateServerStatus'
+import chalk from 'chalk'
+import expressRabbitMQConsumerClient from '../lib/expressRabbitmqConsumerClient'
+import checkAndUpdateServerStatus, {
+  ServerReadyFlagsKey,
+} from './checkAndUpdateServerStatus'
 import {
   loggingHandler,
   notificationHandler,
@@ -21,22 +24,24 @@ import {
 export const createRabbitMqConsumerConnector = async () => {
   try {
     // RabbitMQ 서버에 연결
-    await rabbitMQClient.connect()
+    await expressRabbitMQConsumerClient.connect()
 
-    await rabbitMQClient.startConsuming(
+    await expressRabbitMQConsumerClient.startConsuming(
       'notification_queue',
       notificationHandler,
     )
-    await rabbitMQClient.startConsuming('order_queue', orderProcessHandler)
-    await rabbitMQClient.startConsuming('logging_queue', loggingHandler)
+    await expressRabbitMQConsumerClient.startConsuming(
+      'order_queue',
+      orderProcessHandler,
+    )
+    await expressRabbitMQConsumerClient.startConsuming(
+      'logging_queue',
+      loggingHandler,
+    )
 
-    console.log('모든 RabbitMQ Consumer가 성공적으로 등록되었습니다!')
-
-    console.log('✅ RabbitMQ successfully connected and consumers registered.')
-    global.serverReadyFlags.rabbitMQ = true // RabbitMQ 준비 완료
-    checkAndUpdateServerStatus(global.serverReadyFlags)
+    checkAndUpdateServerStatus(ServerReadyFlagsKey.RABBITMQ_CONSUMER)
   } catch (error) {
-    console.error('❌ RabbitMQ initialization failed:', error)
+    console.error('❌ RabbitMQ Consumer initialization failed:', error)
   }
 }
 
