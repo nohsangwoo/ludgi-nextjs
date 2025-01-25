@@ -1,5 +1,13 @@
 # LUDGI's nextjs Project Setup and Documentation
 
+⚠️ Prerequisites:
+This application requires the following Docker containers to be running:
+
+- Redis
+- RabbitMQ
+
+The application will not function properly unless these services are running.
+
 ## Node Version
 
 Ensure you are using the following Node.js version:
