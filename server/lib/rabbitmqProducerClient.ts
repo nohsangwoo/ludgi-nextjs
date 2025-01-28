@@ -82,7 +82,7 @@ class RabbitMQProducerClient {
    *   message: '새로운 알림이 있습니다'
    * })
    */
-  async publishMessage(queue: string, message: unknown): Promise<void> {
+  async publishMessage(queue: string, message: any): Promise<void> {
     // 연결 확인 및 필요시 재연결
     if (!this.channel || !this.connection) {
       await this.connect()

@@ -41,4 +41,4 @@ EXPOSE ${PORT}
 # 웹소켓 포트 노출
 EXPOSE ${WEBSOCKET_PORT} 
 
-CMD ["bash", "-c", "pm2-runtime start ecosystem.config.js --env production"]
+CMD ["bash", "-c", "node scripts/modifyPackageJson.cjs remove && pm2-runtime start ecosystem.config.cjs --env production"]

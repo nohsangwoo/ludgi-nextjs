@@ -15,12 +15,6 @@ const resolvers = {
       try {
         const { queue, content } = args
 
-        // content를 JSON으로 파싱
-
-        // const newContent = {
-        //   userId: 1,
-        //   msg: content,
-        // }
         await rabbitMQClient.connect()
         await rabbitMQClient.publishMessage(queue, content)
 

@@ -168,7 +168,7 @@ export default function TanstackQueryOptimisticUpdate() {
       <div className="mt-8">
         <h3 className="text-xl font-bold mb-4">현재 사용자 목록</h3>
         <div className="grid gap-4">
-          {data?.getUsersWithPosts.users.map(user => (
+          {data?.getUsersWithPosts?.users?.map(user => (
             <div
               key={user.id}
               className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"

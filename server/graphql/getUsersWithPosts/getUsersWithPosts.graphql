@@ -5,6 +5,7 @@
 query getUsersWithPosts {
   getUsersWithPosts {
     ok
+    error
     # 필요한 필드만 가져오는것을 field selection이라고 함
     users {
       id

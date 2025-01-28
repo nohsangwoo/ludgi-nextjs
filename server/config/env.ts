@@ -1,5 +1,6 @@
 type RequiredEnvKeys =
   | 'DATABASE_URL'
+  | 'OPTIMIZE_API_KEY'
   | 'NEXT_PUBLIC_API_URL'
   | 'NODE_ENV'
   | 'PORT'
@@ -24,6 +25,7 @@ type RequiredEnvKeys =
 export function validateEnv() {
   const required: RequiredEnvKeys[] = [
     'DATABASE_URL',
+    'OPTIMIZE_API_KEY',
     'NEXT_PUBLIC_API_URL',
     'NODE_ENV',
     'PORT',

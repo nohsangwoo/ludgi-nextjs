@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "server/tsconfig.server.json", "scripts/resetServerStatus.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "server/tsconfig.server.json", "scripts/resetServerStatus.cjs"],
   "exclude": ["node_modules"]
 }

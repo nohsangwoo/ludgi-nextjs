@@ -20,5 +20,6 @@ logs
 analyze
 cypress
 cypress.config.ts
-scripts
+scripts/*
+!scripts/modifyPackageJson.cjs
 docker-compose

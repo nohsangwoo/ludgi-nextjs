@@ -52,6 +52,9 @@ class ExpressRabbitMQConsumerClient {
       )
       this.channel = await this.connection.createChannel()
 
+      // prefetch(1) 설정 - 모든 큐에 기본적으로 적용
+      await this.channel.prefetch(1)
+
       // 연결 상태 모니터링을 위한 이벤트 리스너
       this.connection.on('error', async err => {
         console.error(chalk.red('RabbitMQ Consumer connection failed:'), err)
@@ -88,7 +91,7 @@ class ExpressRabbitMQConsumerClient {
    */
   async startConsuming(
     queue: string,
-    messageHandler: (message: unknown) => Promise<void>,
+    messageHandler: (message: any, ack: Function) => Promise<void>,
   ): Promise<void> {
     // 연결 확인 및 필요시 재연결
     if (!this.channel || !this.connection) {
@@ -103,27 +106,20 @@ class ExpressRabbitMQConsumerClient {
       console.log(`${queue} 큐 메시지 대기 중...`)
 
       // 메시지 수신 대기
-      this.channel.consume(queue, async msg => {
-        // console.log('msg: ', msg)
+      this.channel.consume(queue, async (msg: amqp.ConsumeMessage | null) => {
         if (msg) {
           try {
-            // 수신된 메시지를 파싱
-            // const content = JSON.parse(msg.content.toString())
-            const content = msg
-            console.log('받은 메시지:', content)
-
-            // 전달받은 핸들러로 메시지 처리
-            await messageHandler(content)
-
-            // 메시지 처리 완료 확인 (acknowledgment)
-            if (this.channel) {
-              this.channel.ack(msg)
-            }
+            const deserializedContent = JSON.parse(msg.content.toString())
+            console.log(
+              '받은 메시지 in expressRabbitmqConsumerClient: ',
+              deserializedContent,
+            )
+            await messageHandler(deserializedContent, () =>
+              this.channel?.ack(msg),
+            )
           } catch (error) {
             console.error('메시지 처리 중 오류:', error)
-            // 메시지 처리 실패 시 다시 큐에 넣기 (negative acknowledgment)
             if (this.channel) {
-              // nack(메시지, 여러개처리, 재큐잉여부)
               this.channel.nack(msg, false, true)
             }
           }

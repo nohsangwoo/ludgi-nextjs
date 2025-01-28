@@ -12,7 +12,8 @@ export default gql`
   # 주로 도메인별로 특정 데이터를 표현하기 위해 사용됩니다.
   type getUsersWithPostsResult {
     ok: Boolean! # 요청의 성공 여부를 나타내는 필드
-    users: [User!]! # 반환되는 사용자 목록
+    error: String # 오류 메시지를 나타내는 필드
+    users: [User!] # 반환되는 사용자 목록
   }
 
   # 루트 타입 정의

@@ -21,19 +21,24 @@ const resolvers = {
       _args: GetUsersWithPostsQueryVariables,
       context: Context,
     ): Promise<GetUsersWithPostsResult> => {
-      // 데이터베이스에서 사용자 목록을 가져옵니다.
-      // 여기서는 사용자 ID를 기준으로 오름차순 정렬하여 가져옵니다.
-      const users = await context.client.user.findMany({
-        orderBy: {
-          id: 'asc', // ID를 기준으로 오름차순 정렬.
-        },
-      })
+      try {
+        const users = await context.client.user.findMany({
+          orderBy: {
+            id: 'desc',
+          },
+        })
 
-      // GraphQL 응답 객체를 반환합니다.
-      // ok 필드는 요청의 성공 여부를 나타내며, users 필드는 가져온 사용자 데이터를 포함합니다.
-      return {
-        ok: true, // 요청이 성공적으로 처리되었음을 나타냅니다.
-        users, // 데이터베이스에서 가져온 사용자 목록을 포함.
+        return {
+          ok: true,
+          users,
+        }
+      } catch (error) {
+        console.error('사용자 목록 조회 중 오류 발생:', error)
+        
+        return {
+          ok: false,
+          error: error instanceof Error ? error.message : '사용자 목록을 가져오는 중 오류가 발생했습니다.',
+        }
       }
     },
   },
