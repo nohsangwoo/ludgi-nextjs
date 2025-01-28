@@ -111,6 +111,8 @@ docker compose -f postgres-compose.yml down
 
 ## Prisma Setup
 
+- Reference: [Prisma Setup Guide](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases-typescript-postgresql)
+
 ### Database Migration
 
 ```bash
@@ -216,6 +218,8 @@ This project uses [`commander`](https://www.npmjs.com/package/commander) and [`i
 
 ## Redis Setup
 
+- Reference: [Redis Documentation](https://redis.io/)
+
 ### Start Redis Container
 
 ```bash
@@ -315,6 +319,17 @@ npm install prom-client
 - Metrics Endpoint: `/api/metrics`
 - Example API: `/api/example`
 
+### App Build with Docker Compose
+
+To build the app using Docker Compose, use the following commands:
+
+```bash
+docker builder prune
+docker compose -f app-compose.yml down
+docker compose -f app-compose.yml up --build -d
+docker compose -f docker-compose/app/app-compose.yml up --build -d
+```
+
 ---
 
 ## GraphQL
@@ -327,6 +342,10 @@ npm install prom-client
 
 - Learn more about [GraphQL Resolvers](https://graphql.org/learn/execution/).
 
+### GraphQL-WS Documentation
+
+- Reference: [GraphQL-WS Documentation](https://github.com/enisdenjo/graphql-ws/blob/master/README.md)
+
 ---
 
 ## Type Definitions and Descriptions
@@ -337,5 +356,9 @@ npm install prom-client
 | Custom Type     | Data structure used by API   | User, Post, Comment |
 
 ---
+
+## Prisma Optimization
+
+- Reference: [Prisma Optimization Guide](https://www.prisma.io/blog/prisma-optimize-early-access?utm_source=cli&utm_medium=promo-generate-v5-17&utm_campaign=--optimize)
 
 # ludgi-nextjs
