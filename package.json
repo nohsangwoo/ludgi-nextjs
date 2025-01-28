@@ -2,6 +2,7 @@
   "name": "nextjs-2025",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_NO_WARNINGS=1 env-cmd -f .env nodemon --config nodemon.json --exec \"node --loader @swc-node/register/esm --experimental-specifier-resolution=node -r tsconfig-paths/register server/index.ts\"",
     "preinstall": "npx prisma generate",
