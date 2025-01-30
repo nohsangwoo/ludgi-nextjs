@@ -12,6 +12,9 @@ COPY . .
 RUN pnpm install
 RUN pnpm run build
 
+# 빌드 완료 후 .env.production 파일 삭제
+RUN rm -f .env.production
+
 # 실행 스테이지
 FROM node:20.11.1-slim
 
