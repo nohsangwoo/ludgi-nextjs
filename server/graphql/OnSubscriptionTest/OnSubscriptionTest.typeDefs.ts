@@ -7,7 +7,7 @@ export default gql`
 
   type OnSubscriptionTestPayload {
     id: Int!
-    title: String!
-    description: String!
+    email: String!
+    name: String!
   }
 `

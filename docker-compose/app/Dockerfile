@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y gnupg && \
 # 기본 포트 설정 (환경변수가 없을 경우 2000 사용, app-compose.yml에서 설정 된 PORT가 있다면 그 값을 사용)
 ENV PORT=2000
 # 웹소켓 포트 환경변수 추가
-ENV WEBSOCKET_PORT=4800  
+ENV WEBSOCKET_PORT=4900
 
 # 환경변수로 설정된 포트를 EXPOSE에 사용
 EXPOSE ${PORT}

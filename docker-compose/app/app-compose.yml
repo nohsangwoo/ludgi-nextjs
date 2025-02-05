@@ -18,10 +18,10 @@ services:
       # 예시: .env.production에 PORT=3000이 있으면 3000 사용, 
       #      없으면 2000 사용
       - PORT=${PORT:-2000}
-      - WEBSOCKET_PORT=${WEBSOCKET_PORT:-4800}
+      - WEBSOCKET_PORT=${WEBSOCKET_PORT:-4900}
     ports:
       - "${PORT:-2000}:${PORT:-2000}"
-      - "${WEBSOCKET_PORT:-4800}:${WEBSOCKET_PORT:-4800}"
+      - "${WEBSOCKET_PORT:-4900}:${WEBSOCKET_PORT:-4900}"
     networks:
       - ludgi-network
   

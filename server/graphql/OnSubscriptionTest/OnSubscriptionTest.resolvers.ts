@@ -46,8 +46,10 @@ const resolvers = {
       resolve: (payload: any): Promise<OnSubscriptionTestPayload> => {
 
         console.log("ONSUBSCRIPTION_TEST resolve: ", payload)
+        const result = payload.userSubscriptionPayload
+        console.log("ONSUBSCRIPTION_TEST result: ", result)
         // 이벤트에서 전달된 데이터(payload) 중 OnSubscriptionTestPayload를 반환합니다.
-        return payload.OnSubscriptionTestPayload
+        return result
       },
     },
   },

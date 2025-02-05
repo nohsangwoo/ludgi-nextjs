@@ -16,11 +16,11 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ],
-  "[prisma]": {
+],
+"[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
-  },
-  "[dotenv]": {
+},
+"[dotenv]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
-  }
+}
 }

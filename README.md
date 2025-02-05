@@ -131,6 +131,26 @@ npx prisma studio
 npx prisma generate
 ```
 
+### Push Prisma Schema to Database
+
+```bash
+npx prisma db push
+```
+
+### Deploy Prisma Migrations
+
+```bash
+npx prisma migrate deploy
+```
+
+### Reset Prisma Migrations
+
+```bash
+npx prisma migrate reset
+```
+
+### List Prisma Migrations
+
 ---
 
 ## GraphQL Code Generation
@@ -170,48 +190,6 @@ This project uses [`commander`](https://www.npmjs.com/package/commander) and [`i
 - **List All Commands**
   ```bash
   npx ludgi-cli -l
-  ```
-
----
-
-## React Hook Form with Zod
-
-- Resources:
-  - [React Hook Form](https://react-hook-form.com/get-started#SchemaValidation)
-  - [Resolvers for Zod](https://github.com/react-hook-form/resolvers?tab=readme-ov-file#zod)
-
----
-
-## Next-Safe-Action
-
-- Documentation: [Next-Safe-Action](https://next-safe-action.dev/docs/getting-started)
-
----
-
-## ESLint Setup
-
-- Documentation:
-  - [Next.js ESLint Configuration](https://nextjs.org/docs/app/api-reference/config/eslint)
-  - [Prettier ESLint Config](https://github.com/prettier/eslint-config-prettier)
-
----
-
-## Storybook
-
-- Documentation: [Storybook](https://storybook.js.org/)
-- Start Storybook:
-  ```bash
-  npm run storybook
-  ```
-
----
-
-## Cypress
-
-- Documentation: [Cypress](https://www.cypress.io/)
-- Open Cypress:
-  ```bash
-  npm run cy:open
   ```
 
 ---
@@ -260,16 +238,6 @@ docker exec -it redis_cache redis-cli
 
 ---
 
-## Dummy Data Generation
-
-Generate dummy data for development purposes:
-
-```bash
-npx tsx scripts/createDummyData.ts
-```
-
----
-
 ## RabbitMQ
 
 ### Start RabbitMQ Container
@@ -290,6 +258,58 @@ docker compose -f docker-compose/rabbitmq/rabbitmq-compose.yml down
 - Default Credentials:
   - Username: `admin`
   - Password: `admin123`
+
+---
+
+## React Hook Form with Zod
+
+- Resources:
+  - [React Hook Form](https://react-hook-form.com/get-started#SchemaValidation)
+  - [Resolvers for Zod](https://github.com/react-hook-form/resolvers?tab=readme-ov-file#zod)
+
+---
+
+## Next-Safe-Action
+
+- Documentation: [Next-Safe-Action](https://next-safe-action.dev/docs/getting-started)
+
+---
+
+## ESLint Setup
+
+- Documentation:
+  - [Next.js ESLint Configuration](https://nextjs.org/docs/app/api-reference/config/eslint)
+  - [Prettier ESLint Config](https://github.com/prettier/eslint-config-prettier)
+
+---
+
+## Storybook
+
+- Documentation: [Storybook](https://storybook.js.org/)
+- Start Storybook:
+  ```bash
+  npm run storybook
+  ```
+
+---
+
+## Cypress
+
+- Documentation: [Cypress](https://www.cypress.io/)
+- Open Cypress:
+  ```bash
+  npm run cy:open
+  ```
+
+---
+
+## Dummy Data Generation
+
+Generate dummy data for development purposes:
+
+```bash
+npx tsx scripts/createDummyData.ts
+```
 
 ---
 
@@ -361,4 +381,19 @@ docker compose -f docker-compose/app/app-compose.yml up --build -d
 
 - Reference: [Prisma Optimization Guide](https://www.prisma.io/blog/prisma-optimize-early-access?utm_source=cli&utm_medium=promo-generate-v5-17&utm_campaign=--optimize)
 
-# ludgi-nextjs
+## app build
+
+### manual(recommended)
+
+```bash
+docker builder prune # if you want to delete all the build cache
+cd docker-compose/app
+docker compose -f app-compose.yml down
+docker compose -f app-compose.yml up --build -d
+```
+
+### auto
+
+```bash
+sh docker-compose/app/build.sh
+```

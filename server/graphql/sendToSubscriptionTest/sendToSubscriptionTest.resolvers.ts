@@ -15,7 +15,7 @@ const resolvers = {
       console.log('touch send to subscription')
 
       // 구독자들에게 새 사용자 생성 알림
-      expressRedisPubsub.publish('USER_CREATED', {
+      expressRedisPubsub.publish('ONSUBSCRIPTION_TEST', {
         userSubscriptionPayload: {
           id: 1,
           email: 'test@test.com',

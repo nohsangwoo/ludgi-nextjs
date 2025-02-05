@@ -63,7 +63,13 @@ const navigationItems: NavItem[] = [
   },
   {
     title: 'Auth',
-    items: [{ label: 'Login', href: '/usage/loginAndLogout' }],
+    items: [
+      { label: 'Login With Iron session', href: '/usage/loginWithIronSession' },
+      {
+        label: 'Login With Redis session',
+        href: '/usage/loginWithRedisSession',
+      },
+    ],
   },
   {
     title: 'ZX',
@@ -89,7 +95,7 @@ const navigationItems: NavItem[] = [
 
       { label: 'Subscription', href: '/usage/testSubscriptionExample' },
       { label: 'Publish V1', href: '/usage/sendToSubscriptionExample' },
-      { label: 'Publish V2', href: '/usage/testMutationExample' },
+      // { label: 'Publish V2', href: '/usage/testMutationExample' },
     ],
   },
 ]
